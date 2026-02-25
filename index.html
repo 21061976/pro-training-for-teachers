@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ניהול סיכונים – הכשרה ופיתוח מקצועי | פיילוט 720</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #f5f6fa;
+    --surface:    #ffffff;
+    --surface2:   #f0f2f9;
+    --border:     #dde1ef;
+    --border2:    #c8cee3;
+    --accent:     #3b5bdb;
+    --accent-lt:  #e8ecff;
+    --purple:     #6741d9;
+    --purple-lt:  #ede9ff;
+    --teal:       #0ea5a0;
+    --teal-lt:    #e0f7f6;
+    --amber:      #d97706;
+    --amber-lt:   #fef3c7;
+    --red:        #dc2626;
+    --red-lt:     #fef2f2;
+    --orange:     #ea580c;
+    --orange-lt:  #fff7ed;
+    --green:      #16a34a;
+    --green-lt:   #f0fdf4;
+    --text:       #1e2340;
+    --text-mid:   #374369;
+    --text-muted: #5a6384;
+    --text-dim:   #8892ad;
+    --shadow:     0 1px 4px rgba(30,35,64,0.08), 0 4px 20px rgba(30,35,64,0.05);
+    --shadow-md:  0 2px 8px rgba(30,35,64,0.10), 0 8px 32px rgba(30,35,64,0.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Heebo', sans-serif;
+    font-weight: 400;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: linear-gradient(135deg, #2b3f9e 0%, #3b5bdb 50%, #5b3fa8 100%);
+    padding: 52px 48px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -60px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 5%;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .header-inner { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+  .header-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-size: 12px; font-weight: 700; color: #fff; letter-spacing: 0.04em;
+    margin-bottom: 18px;
+  }
+  h1.main-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 10px;
+  }
+  .header-subtitle { font-size: 15px; color: rgba(255,255,255,0.82); margin-bottom: 32px; }
+  .header-meta { display: flex; gap: 36px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label { font-size: 10px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.07em; }
+  .meta-value { font-size: 14px; font-weight: 700; color: #fff; }
+
+  /* ── LEGEND BAR ── */
+  .legend-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 48px;
+    box-shadow: 0 1px 0 var(--border);
+  }
+  .legend-inner {
+    max-width: 1120px; margin: 0 auto;
+    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  }
+  .legend-title { font-size: 11px; color: var(--text-dim); font-weight: 700; letter-spacing: 0.06em; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+  .phase-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 10px; border-radius: 5px;
+    font-size: 11px; font-weight: 700; border: 1.5px solid;
+  }
+  .phase-plan { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+  .phase-exec { background: #f0fdf4; border-color: #86efac; color: #15803d; }
+  .phase-ctrl { background: #faf5ff; border-color: #c4b5fd; color: #7c3aed; }
+
+  /* ── CONTENT ── */
+  .content-area { max-width: 1120px; margin: 36px auto; padding: 0 48px 80px; }
+
+  /* ── STATS ── */
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 40px; }
+  .stat-card {
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 22px 24px; text-align: center;
+    box-shadow: var(--shadow); transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .stat-card:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
+  .stat-num {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 40px; font-weight: 900; line-height: 1; margin-bottom: 6px;
+  }
+  .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+  /* ── VISION STRIP ── */
+  .vision-strip {
+    background: linear-gradient(135deg, #eff6ff 0%, #faf5ff 100%);
+    border: 1.5px solid #c7d7fe;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 36px;
+    box-shadow: var(--shadow);
+  }
+  .vision-strip-title {
+    font-size: 13px; font-weight: 800; color: var(--accent);
+    letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .vision-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .vision-chip {
+    background: var(--surface); border: 1.5px solid var(--border2);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 12px; font-weight: 600; color: var(--text-mid);
+  }
+
+  /* ── CATEGORY ── */
+  .category-header {
+    display: flex; align-items: center; gap: 14px;
+    margin: 44px 0 20px; padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+  }
+  .cat-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .cat-title { font-family: 'Frank Ruhl Libre', serif; font-size: 20px; font-weight: 900; color: var(--text); }
+  .cat-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── RISK CARD ── */
+  .risk-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 16px; margin-bottom: 22px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .risk-card:hover { box-shadow: var(--shadow-md); border-color: var(--border2); }
+
+  .risk-header {
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: start; gap: 20px;
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .risk-num {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--surface); border: 2px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; color: var(--text-mid);
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .risk-title { font-family: 'Frank Ruhl Libre', serif; font-size: 18px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+  .risk-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .risk-tag {
+    font-size: 11px; font-weight: 700; padding: 3px 11px;
+    border-radius: 20px; border: 1.5px solid;
+  }
+  /* Process ref tag */
+  .proc-tag {
+    font-size: 11px; font-weight: 600;
+    background: var(--accent-lt); border: 1.5px solid #a5b4fc; color: var(--accent);
+    padding: 3px 11px; border-radius: 20px;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+
+  .severity-block { text-align: center; flex-shrink: 0; }
+  .severity-badge {
+    display: inline-block; padding: 4px 14px; border-radius: 20px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.03em; margin-bottom: 5px;
+  }
+  .sev-high { background: var(--red-lt); color: var(--red); border: 1.5px solid #fca5a5; }
+  .sev-med  { background: var(--orange-lt); color: var(--orange); border: 1.5px solid #fdba74; }
+  .sev-low  { background: var(--green-lt); color: var(--green); border: 1.5px solid #86efac; }
+  .sev-score { font-size: 30px; font-weight: 900; font-family: 'Frank Ruhl Libre', serif; line-height: 1; }
+  .sev-score-high { color: var(--red); }
+  .sev-score-med  { color: var(--orange); }
+  .sev-score-low  { color: var(--green); }
+  .sev-sub { font-size: 10px; color: var(--text-dim); margin-top: 3px; }
+
+  /* ── RISK BODY 3-col ── */
+  .risk-body { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .rb-col { padding: 22px 24px; border-right: 1px solid var(--border); }
+  .rb-col:first-child { border-right: none; }
+  .rb-col-label {
+    font-size: 10px; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .risk-desc { font-size: 13.5px; color: var(--text-mid); line-height: 1.75; }
+
+  /* Implications */
+  .impl-list { list-style: none; }
+  .impl-list li {
+    font-size: 13.5px; color: var(--text-mid); padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 9px; line-height: 1.5;
+  }
+  .impl-list li:last-child { border-bottom: none; }
+  .impl-list li::before { content: '▸'; color: var(--orange); font-size: 10px; margin-top: 4px; flex-shrink: 0; }
+
+  /* Actions */
+  .action-block {
+    background: var(--surface2); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 13px 15px; margin-bottom: 10px;
+  }
+  .action-block:last-child { margin-bottom: 0; }
+  .action-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 7px; gap: 10px; }
+  .action-title { font-size: 13px; font-weight: 800; color: var(--text); flex: 1; }
+  .action-body { font-size: 12.5px; color: var(--text-muted); line-height: 1.65; }
+  .action-risk-tag {
+    font-size: 10.5px; color: var(--text-dim); margin-top: 8px;
+    padding-top: 7px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .action-risk-tag::before { content: '⚑'; font-size: 9px; }
+
+  /* Process link */
+  .process-ref {
+    margin-bottom: 12px;
+    font-size: 11.5px; color: var(--accent);
+    background: var(--accent-lt); border-radius: 8px; padding: 7px 12px;
+    border: 1px solid #bfcbff;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .process-ref strong { font-weight: 700; }
+
+  /* ── APPROVAL ── */
+  .approval-section {
+    margin-top: 8px;
+    background: linear-gradient(135deg, #eff6ff 0%, #faf5ff 100%);
+    border: 1.5px solid #bfcbff;
+    border-top: 3px solid var(--accent);
+    border-radius: 12px; padding: 20px 22px;
+  }
+  .approval-label {
+    font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .approval-conditions { list-style: none; }
+  .approval-conditions li {
+    font-size: 13px; color: var(--text-mid); padding: 7px 0;
+    border-bottom: 1px solid rgba(59,91,219,0.12);
+    display: flex; align-items: flex-start; gap: 10px; line-height: 1.55;
+  }
+  .approval-conditions li:last-child { border-bottom: none; }
+  .cond-num {
+    background: var(--accent-lt); color: var(--accent);
+    border: 1.5px solid #93c5fd; border-radius: 50%;
+    width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* ── COMPETENCY BOX ── */
+  .competency-bar {
+    background: var(--teal-lt); border: 1.5px solid #99e6e4;
+    border-radius: 12px; padding: 18px 22px; margin-bottom: 14px;
+  }
+  .comp-title { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+  .comp-chips { display: flex; gap: 7px; flex-wrap: wrap; }
+  .comp-chip {
+    background: var(--surface); border: 1.5px solid #99e6e4;
+    border-radius: 16px; padding: 4px 12px;
+    font-size: 11.5px; font-weight: 600; color: var(--teal);
+  }
+
+  /* ── SUMMARY TABLE ── */
+  .summary-section {
+    margin-top: 48px; background: var(--surface);
+    border: 1.5px solid var(--border); border-radius: 16px;
+    box-shadow: var(--shadow); overflow: hidden;
+  }
+  .summary-header {
+    padding: 22px 28px; border-bottom: 1px solid var(--border);
+    font-family: 'Frank Ruhl Libre', serif; font-size: 18px; font-weight: 900;
+    color: var(--text); display: flex; align-items: center; gap: 10px;
+    background: var(--surface2);
+  }
+  table.summary-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  table.summary-table th {
+    padding: 12px 22px; background: var(--surface2);
+    color: var(--text-dim); font-size: 10px; font-weight: 800; letter-spacing: 0.07em;
+    text-transform: uppercase; border-bottom: 1px solid var(--border); text-align: right;
+  }
+  table.summary-table td { padding: 14px 22px; border-bottom: 1px solid var(--border); color: var(--text-mid); vertical-align: middle; }
+  table.summary-table tr:last-child td { border-bottom: none; }
+  table.summary-table tr:hover td { background: var(--surface2); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 28px;
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-dim);
+    background: var(--surface);
+  }
+
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: repeat(2,1fr); }
+    .risk-body { grid-template-columns: 1fr; }
+    .rb-col { border-right: none; border-bottom: 1px solid var(--border); }
+    .rb-col:last-child { border-bottom: none; }
+    .risk-header { grid-template-columns: auto 1fr; }
+    .severity-block { grid-column: 1/-1; text-align: right; }
+    .page-header, .content-area { padding: 24px 20px; }
+    .legend-bar { padding: 12px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="page-header">
+  <div class="header-inner">
+    <div class="header-badge">⚠️ ניהול סיכונים | פיילוט 720</div>
+    <h1 class="main-title">הכשרה ופיתוח מקצועי של מורים</h1>
+    <p class="header-subtitle">מיפוי סיכונים, השלכות ומנגנוני תיקון — מבוסס על תהליך 5: ליווי תהליכי למידה מותאמים אישית</p>
+    <div class="header-meta">
+      <div class="meta-item"><span class="meta-label">אחראית</span><span class="meta-value">אירה קוגן</span></div>
+      <div class="meta-item"><span class="meta-label">מסגרת</span><span class="meta-value">תשפ"ה–תשפ"ו</span></div>
+      <div class="meta-item"><span class="meta-label">בתי ספר</span><span class="meta-value">28 בתי ספר | כיתות ז'</span></div>
+      <div class="meta-item"><span class="meta-label">מקצועות</span><span class="meta-value">מתמטיקה, מדעים, אנגלית</span></div>
+      <div class="meta-item"><span class="meta-label">מודל עיון</span><span class="meta-value">KnowledgeWorks | חותם | חינוך דמוקרטי</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <div class="legend-inner">
+    <span class="legend-title">שלבי פיילוט:</span>
+    <span class="phase-chip phase-plan">📐 תכנון</span>
+    <span class="phase-chip phase-exec">⚙️ ביצוע</span>
+    <span class="phase-chip phase-ctrl">📊 בקרה</span>
+    <div style="margin-right:auto;display:flex;gap:20px;flex-wrap:wrap;">
+      <span class="legend-item"><span class="legend-dot" style="background:#dc2626;"></span>סיכון גבוה (56–90)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#ea580c;"></span>סיכון בינוני (25–55)</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#16a34a;"></span>סיכון נמוך (1–24)</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="content-area">
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--red)">3</div>
+      <div class="stat-label">🔴 סיכונים גבוהים</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--orange)">4</div>
+      <div class="stat-label">🟠 סיכונים בינוניים</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">1</div>
+      <div class="stat-label">🟢 סיכונים נמוכים</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--accent)">8</div>
+      <div class="stat-label">סך סיכונים ממופים</div>
+    </div>
+  </div>
+
+  <!-- VISION STRIP -->
+  <div class="vision-strip">
+    <div class="vision-strip-title">📌 עוגני תפיסה — תהליך 5 מתוך מסמך החזון</div>
+    <div class="vision-chips">
+      <span class="vision-chip">מנטור אישי</span>
+      <span class="vision-chip">מומחה תוכן</span>
+      <span class="vision-chip">ליווי רציף</span>
+      <span class="vision-chip">Walk the Talk</span>
+      <span class="vision-chip">פיתוח מקצועי מותאם אישית</span>
+      <span class="vision-chip">אימון אישי ללמידה</span>
+      <span class="vision-chip">קהילת לומדים</span>
+      <span class="vision-chip">מיפוי והצבת יעדים</span>
+      <span class="vision-chip">תהליכים מקבילים</span>
+      <span class="vision-chip">תיעוד ועדכון פרופיל</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CATEGORY A — שינוי תפקיד המורה
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="category-header">
+    <div class="cat-icon" style="background:var(--purple-lt);">👩‍🏫</div>
+    <div>
+      <div class="cat-title">קטגוריה א' – המעבר ממורה-מוסר-ידע למורה-מנטור</div>
+      <div class="cat-subtitle">סיכונים הנובעים מהמעבר לתפקיד המשלב מומחיות דיסציפלינרית ומנטורינג אישי (תהליך 5, שלבים 1–3)</div>
+    </div>
+  </div>
+
+  <!-- RISK 1 -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-num">1</div>
+      <div class="risk-title-block">
+        <div class="risk-title">התנגדות לשינוי תפקיד — מוסר ידע לשלם</div>
+        <div class="risk-tags">
+          <span class="risk-tag" style="background:var(--red-lt);border-color:#fca5a5;color:var(--red);">שינוי זהות מקצועית</span>
+          <span class="risk-tag" style="background:var(--orange-lt);border-color:#fdba74;color:var(--orange);">עמדות מורים</span>
+          <span class="proc-tag">📌 שלבים 1–3 בתהליך 5</span>
+        </div>
+      </div>
+      <div class="severity-block">
+        <div class="severity-badge sev-high">🔴 גבוהה</div><br>
+        <span class="sev-score sev-score-high">72</span>
+        <div class="sev-sub">הסתברות 9/10 · השפעה 8/10</div>
+      </div>
+    </div>
+    <div class="risk-body">
+      <div class="rb-col">
+        <div class="rb-col-label">📋 תיאור הסיכון</div>
+        <div class="process-ref"><strong>מסמך החזון:</strong> "המעבר לשלם: מומחה תוכן + מנטור אישי — שני רכיבים שאינם מתקיימים בנפרד"</div>
+        <p class="risk-desc">המורים מגיעים עם תפקיד מוגדר של הקנאה פרונטלית. החזון של 720 מחייב פרופיל מורה שלם הפועל בו-זמנית כמומחה דיסציפלינרי וכמנטור אישי. שינוי זה כרוך בוויתור על שליטה ועל זהות מקצועית מוכרת ועלול לייצר התנגדות פעילה או סמויה.</p>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">📉 השלכות אפשריות</div>
+        <ul class="impl-list">
+          <li>מורים ממשיכים בהוראה פרונטלית גם כשכלי הב"מ פעיל</li>
+          <li>אי-מימוש שלבי האימון האישי וניהול קהילת הלומדים</li>
+          <li>פגיעה ביחס האישי, ברגשי ובמוטיבציה של התלמיד</li>
+          <li>כשל בבניית מערכת יחסים מנטורית לטווח ארוך</li>
+        </ul>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">🔧 מענה ופעולות בהתנסות</div>
+
+        <div class="competency-bar">
+          <div class="comp-title">🎯 כישורים לפיתוח (מסמך החזון)</div>
+          <div class="comp-chips">
+            <span class="comp-chip">הקשבה פעילה</span>
+            <span class="comp-chip">שאילת שאלות</span>
+            <span class="comp-chip">שיקוף</span>
+            <span class="comp-chip">גמישות פדגוגית</span>
+          </div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">Walk the Talk — מורה חווה למידה מותאמת אישית</span>
+            <span class="phase-chip phase-plan">📐 תכנון</span>
+          </div>
+          <p class="action-body">עיקרון "חותם": הדרך האפקטיבית היא תהליך מקביל — מורה שחווה ליווי אישי לומד לעניק אותו. ימי הכשרה מבוססים על חוויה אישית בפלטפורמה.</p>
+          <div class="action-risk-tag">מרכיב סיכון: ניתוק בין תיאוריה לפרקטיקה</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">הכשרה בדגם "חותם" — ארגז כלים רב-תחומי</span>
+            <span class="phase-chip phase-exec">⚙️ ביצוע</span>
+          </div>
+          <p class="action-body">הכשרה משלבת כלים מייעוץ, אימון והנחיה. סמינר קיץ ייעודי + מפגשי למידה קבוצתיים לאורך השנה. שיח ערכי על קידום שוויון.</p>
+          <div class="action-risk-tag">מרכיב סיכון: תפקיד חדש ללא ארגז כלים מתאים</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">מדד שינוי עמדות — לפני ואחרי</span>
+            <span class="phase-chip phase-ctrl">📊 בקרה</span>
+          </div>
+          <p class="action-body">שאלון עמדות ותפיסת תפקיד בתחילת השנה ובסופה. זיהוי מוקדם של מורים הזקוקים לתמיכה נוספת.</p>
+          <div class="action-risk-tag">מרכיב סיכון: אי-זיהוי התנגדות מוקדמת</div>
+        </div>
+
+        <div class="approval-section">
+          <div class="approval-label">✅ אישור ההתנסות בתנאים הבאים</div>
+          <ul class="approval-conditions">
+            <li><span class="cond-num">1</span>כל מורה עבר לפחות יום הכשרה מרוכז (סמינר קיץ) לפני כניסה לכיתה עם הכלי</li>
+            <li><span class="cond-num">2</span>מוגדר "מנטור מוביל" בכל בית ספר — אחראי על תמיכה שוטפת (בדגם חותם)</li>
+            <li><span class="cond-num">3</span>הסכמה חתומה של הנהלת בית הספר לתמוך בשינוי תפקיד המורה</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK 2 -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-num">2</div>
+      <div class="risk-title-block">
+        <div class="risk-title">פערי כשירות דיגיטלית ואוריינות נתונים</div>
+        <div class="risk-tags">
+          <span class="risk-tag" style="background:var(--red-lt);border-color:#fca5a5;color:var(--red);">כשירות דיגיטלית</span>
+          <span class="risk-tag" style="background:var(--orange-lt);border-color:#fdba74;color:var(--orange);">אוריינות נתונים</span>
+          <span class="proc-tag">📌 שלב 6 — תיעוד ועדכון פרופיל</span>
+        </div>
+      </div>
+      <div class="severity-block">
+        <div class="severity-badge sev-high">🔴 גבוהה</div><br>
+        <span class="sev-score sev-score-high">63</span>
+        <div class="sev-sub">הסתברות 9/10 · השפעה 7/10</div>
+      </div>
+    </div>
+    <div class="risk-body">
+      <div class="rb-col">
+        <div class="rb-col-label">📋 תיאור הסיכון</div>
+        <div class="process-ref"><strong>מסמך החזון:</strong> "אוריינות דיגיטלית ואוריינות נתונים — שימוש בטכנולוגיות, איסוף וניתוח נתונים"</div>
+        <p class="risk-desc">תפקיד המנטור-מורה ב-720 מחייב יכולת לתעד, לנתח ולעדכן פרופיל לומד במערכת הטכנולוגית. מורים ללא כשירות דיגיטלית מספקת לא יוכלו לממש שלבים 5–6 בתהליך הליווי.</p>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">📉 השלכות אפשריות</div>
+        <ul class="impl-list">
+          <li>פרופיל הלומד אינו מתעדכן — הכלי מאבד ערך פדגוגי</li>
+          <li>מורים מפחיתים שימוש בכלי בשל חוסר ביטחון</li>
+          <li>שונות גדולה בין כיתות — פגיעה בשוויוניות</li>
+          <li>תלות מוגזמת בתמיכה טכנית חיצונית</li>
+        </ul>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">🔧 מענה ופעולות בהתנסות</div>
+
+        <div class="competency-bar">
+          <div class="comp-title">🎯 כישורים לפיתוח (מסמך החזון)</div>
+          <div class="comp-chips">
+            <span class="comp-chip">אוריינות דיגיטלית</span>
+            <span class="comp-chip">אוריינות נתונים</span>
+            <span class="comp-chip">מיומנויות רפלקטיביות</span>
+          </div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">מיפוי כשירויות מקדים + מסלולים דיפרנציאליים</span>
+            <span class="phase-chip phase-plan">📐 תכנון</span>
+          </div>
+          <p class="action-body">כישורים הכרחיים, דיפרנציאליים ותכני בחירה — כמו מסלול הפיתוח המקצועי לתלמיד, כך גם למורה. לפחות שתי רמות הכשרה.</p>
+          <div class="action-risk-tag">מרכיב סיכון: הכשרה אחידה שאינה מותאמת</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">למידה תוך כדי עשייה — התנסות בפלטפורמה</span>
+            <span class="phase-chip phase-exec">⚙️ ביצוע</span>
+          </div>
+          <p class="action-body">חקר פרקטיקה: מורים מנתחים תוצאות אמיתיות מהכיתה שלהם, עם ליווי מנטור מוביל. עיקרון ה-Embedded Professional Development.</p>
+          <div class="action-risk-tag">מרכיב סיכון: הכשרה תיאורטית ללא שדה</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">ניטור שימוש בפלטפורמה — זיהוי מורים שאינם מנצלים</span>
+            <span class="phase-chip phase-ctrl">📊 בקרה</span>
+          </div>
+          <p class="action-body">לוגים של כניסות, תיעוד ועדכון פרופיל. זיהוי מורים שלא מעדכנים — פנייה יזומה עם ליווי ממוקד.</p>
+          <div class="action-risk-tag">מרכיב סיכון: נפילה שקטה של מורים</div>
+        </div>
+
+        <div class="approval-section">
+          <div class="approval-label">✅ אישור ההתנסות בתנאים הבאים</div>
+          <ul class="approval-conditions">
+            <li><span class="cond-num">1</span>בוצע מיפוי כשירות דיגיטלית לכל משתתף לפני תחילת הפיילוט</li>
+            <li><span class="cond-num">2</span>קיים ערוץ תמיכה טכנית נגיש לאורך כל השנה (לא רק בהכשרות)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CATEGORY B — ניהול ומבנה ההכשרה
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="category-header">
+    <div class="cat-icon" style="background:var(--accent-lt);">🏫</div>
+    <div>
+      <div class="cat-title">קטגוריה ב' – ניהול ומבנה ההכשרה בתוך שעות העבודה</div>
+      <div class="cat-subtitle">סיכונים הנובעים מעיקרון Embedded Professional Development — למידה תוך כדי עשייה</div>
+    </div>
+  </div>
+
+  <!-- RISK 3 -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-num">3</div>
+      <div class="risk-title-block">
+        <div class="risk-title">קושי בפינוי שעות לימודים להכשרה שוטפת</div>
+        <div class="risk-tags">
+          <span class="risk-tag" style="background:var(--red-lt);border-color:#fca5a5;color:var(--red);">ארגוני</span>
+          <span class="risk-tag" style="background:var(--orange-lt);border-color:#fdba74;color:var(--orange);">תפעולי</span>
+          <span class="proc-tag">📌 עיקרון מוביל — הכשרה בתוך יום העבודה</span>
+        </div>
+      </div>
+      <div class="severity-block">
+        <div class="severity-badge sev-high">🔴 גבוהה</div><br>
+        <span class="sev-score sev-score-high">64</span>
+        <div class="sev-sub">הסתברות 8/10 · השפעה 8/10</div>
+      </div>
+    </div>
+    <div class="risk-body">
+      <div class="rb-col">
+        <div class="rb-col-label">📋 תיאור הסיכון</div>
+        <div class="process-ref"><strong>מסמך החזון:</strong> "קיום ההכשרה בתוך יום הלימודים הוא תנאי להטמעה עמוקה ולשינוי בר-קיימא"</div>
+        <p class="risk-desc">עיקרון Embedded Professional Development מחייב שינוי מהותי בסדרי בית הספר. מנהלים מתקשים לפנות שעות, לתאם מחליפים ולשנות סדרי עדיפויות. הסיכון: ההכשרות יועברו אחר הצהריים — בניגוד לעיקרון.</p>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">📉 השלכות אפשריות</div>
+        <ul class="impl-list">
+          <li>הכשרה מקוצצת — ניתוק בין תיאוריה לפרקטיקה מיידית</li>
+          <li>עומס על מורים — הוספה על גבי שעות עבודה קיימות</li>
+          <li>כשל בצפייה הדדית ומשוב בזמן אמת</li>
+          <li>פגיעה בעיקרון "למידה תוך כדי עשייה"</li>
+        </ul>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">🔧 מענה ופעולות בהתנסות</div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">הסכמה מבנית עם ההנהלה לפני הצטרפות</span>
+            <span class="phase-chip phase-plan">📐 תכנון</span>
+          </div>
+          <p class="action-body">הכשרה בתוך שעות הלימודים מוגדרת כתנאי כניסה לפיילוט. הסכם כתוב עם הנהלת בית הספר והרשות לאשר פינוי שעות.</p>
+          <div class="action-risk-tag">מרכיב סיכון: היעדר מחויבות פורמלית</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">גמישות מבנית — מפגשים משולבים בשגרה</span>
+            <span class="phase-chip phase-exec">⚙️ ביצוע</span>
+          </div>
+          <p class="action-body">שילוב בישיבות צוות קיימות + התנסויות ממוקדות (20–30 דקות) בתוך שיעורים בפועל + צפייה הדדית. לא מפגשים נפרדים וארוכים.</p>
+          <div class="action-risk-tag">מרכיב סיכון: קושי בפינוי שעות מרוכזות</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">מדד עמידה בשעות הכשרה בתוך יום לימודים</span>
+            <span class="phase-chip phase-ctrl">📊 בקרה</span>
+          </div>
+          <p class="action-body">מעקב רבעוני אחר שעות הכשרה שבוצעו בתוך שעות הלימודים לעומת אחר הצהריים. דיווח לצוות 720.</p>
+          <div class="action-risk-tag">מרכיב סיכון: נסיגה שקטה מהמחויבות</div>
+        </div>
+
+        <div class="approval-section">
+          <div class="approval-label">✅ אישור ההתנסות בתנאים הבאים</div>
+          <ul class="approval-conditions">
+            <li><span class="cond-num">1</span>קיים הסכם כתוב של הנהלת בית הספר לפינוי שעות לימודים לצורך הכשרה שוטפת</li>
+            <li><span class="cond-num">2</span>הוגדר לוח שנה שנתי הכולל ימי הכשרה מרוכזים ומפגשים בית-ספריים</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK 4 -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-num">4</div>
+      <div class="risk-title-block">
+        <div class="risk-title">אי-קיום קהילה מקצועית לומדת בין-בית-ספרית לאורך זמן</div>
+        <div class="risk-tags">
+          <span class="risk-tag" style="background:var(--amber-lt);border-color:#fcd34d;color:var(--amber);">קיימות</span>
+          <span class="risk-tag" style="background:var(--accent-lt);border-color:#a5b4fc;color:var(--accent);">שיתוף עמיתים</span>
+          <span class="proc-tag">📌 שלב 4 — ניהול קהילת לומדים</span>
+        </div>
+      </div>
+      <div class="severity-block">
+        <div class="severity-badge sev-med">🟠 בינונית</div><br>
+        <span class="sev-score sev-score-med">48</span>
+        <div class="sev-sub">הסתברות 8/10 · השפעה 6/10</div>
+      </div>
+    </div>
+    <div class="risk-body">
+      <div class="rb-col">
+        <div class="rb-col-label">📋 תיאור הסיכון</div>
+        <div class="process-ref"><strong>מסמך החזון:</strong> "ניהול קהילת לומדים — מקור למוטיבציה, שיפור מעורבות ותמיכה נוספת"</div>
+        <p class="risk-desc">החזון מבסס קהילה מקצועית לומדת בין-בית-ספרית כתשתית לצמיחה מקצועית. מניסיון העבר, קהילות כאלה מתאיידות ללא מנגנון תחזוקה מוסדי.</p>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">📉 השלכות אפשריות</div>
+        <ul class="impl-list">
+          <li>ידע שנצבר בפיילוט אינו מתפשט למערכת הרחבה</li>
+          <li>תלות בפרטים ולא במבנה ארגוני קיים</li>
+          <li>פגיעה בתמיכה ההדדית של המנטורים</li>
+        </ul>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">🔧 מענה ופעולות בהתנסות</div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">הגדרת מנחה קהילה — דגם "מנטור מוביל" של חותם</span>
+            <span class="phase-chip phase-plan">📐 תכנון</span>
+          </div>
+          <p class="action-body">הקמת מנגנון קהילה מוסדי: מנחה קהילה, תדירות מפגשים קבועה, פלטפורמה לשיתוף. מנחה מתוגמל עבור תפקידו.</p>
+          <div class="action-risk-tag">מרכיב סיכון: קהילה ללא מנגנון תחזוקה</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">מפגשי צפייה הדדית בין-בית-ספריים</span>
+            <span class="phase-chip phase-exec">⚙️ ביצוע</span>
+          </div>
+          <p class="action-body">לפחות 3 מפגשי צפייה הדדית שנתיים. שיתוף best practices, פרקטיקות מנטורינג ודילמות. הקהילה כ"ועדת תמיכה" לחונכים.</p>
+          <div class="action-risk-tag">מרכיב סיכון: קהילה וירטואלית שלא מתממשת</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">מדד פעילות קהילה + סקר שביעות רצון</span>
+            <span class="phase-chip phase-ctrl">📊 בקרה</span>
+          </div>
+          <p class="action-body">מעקב: משתתפים פעילים, שיתופים, מפגשים שהתקיימו. סקר שביעות רצון פעמיים בשנה.</p>
+          <div class="action-risk-tag">מרכיב סיכון: קהילה "מתה" שנראית פעילה</div>
+        </div>
+
+        <div class="approval-section">
+          <div class="approval-label">✅ אישור ההתנסות בתנאים הבאים</div>
+          <ul class="approval-conditions">
+            <li><span class="cond-num">1</span>קיים מנחה קהילה מוגדר ומתוגמל לתפקידו</li>
+            <li><span class="cond-num">2</span>נקבעו לפחות 3 מועדי מפגש בין-בית-ספרי מראש בתחילת השנה</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CATEGORY C — תגמול והכרה
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="category-header">
+    <div class="cat-icon" style="background:var(--amber-lt);">📏</div>
+    <div>
+      <div class="cat-title">קטגוריה ג' – הכרה, תגמול ופיתוח מקצועי רשמי</div>
+      <div class="cat-subtitle">מסמך החזון: "הקצאת זמן ומשאבים — נדבך מרכזי בהטמעת מודל הלמידה המותאמת אישית"</div>
+    </div>
+  </div>
+
+  <!-- RISK 5 -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-num">5</div>
+      <div class="risk-title-block">
+        <div class="risk-title">אי-הלימה בין תפקיד המנטור לתגמול ולהכרה המקצועית הרשמית</div>
+        <div class="risk-tags">
+          <span class="risk-tag" style="background:var(--amber-lt);border-color:#fcd34d;color:var(--amber);">תגמול</span>
+          <span class="risk-tag" style="background:var(--red-lt);border-color:#fca5a5;color:var(--red);">מוטיבציה</span>
+          <span class="proc-tag">📌 עיקרון חותם — הכרה ותגמול פורמלי</span>
+        </div>
+      </div>
+      <div class="severity-block">
+        <div class="severity-badge sev-med">🟠 בינונית</div><br>
+        <span class="sev-score sev-score-med">45</span>
+        <div class="sev-sub">הסתברות 9/10 · השפעה 5/10</div>
+      </div>
+    </div>
+    <div class="risk-body">
+      <div class="rb-col">
+        <div class="rb-col-label">📋 תיאור הסיכון</div>
+        <div class="process-ref"><strong>מסמך חותם:</strong> "הכרה פורמלית — הקצאת שעות ותגמול הולם, מסמנים חשיבות התפקיד"</div>
+        <p class="risk-desc">תפקיד מנטור-מורה אינו מוכר כיום בתפריט אופק חדש/עוז לתמורה. מורים שמשקיעים ללא הכרה מאבדים מוטיבציה ומחזירים את השינוי לנקודת הפתיחה.</p>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">📉 השלכות אפשריות</div>
+        <ul class="impl-list">
+          <li>מורים מתנדבים בשלב ראשון ונוטשים ללא הכרה</li>
+          <li>קשיים בגיוס מורים לפיילוט בשנים הבאות</li>
+          <li>תחושת ניצול אצל מורים מחויבים</li>
+        </ul>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">🔧 מענה ופעולות בהתנסות</div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">הגדרת מסגרת תגמול לפני תחילת הפיילוט</span>
+            <span class="phase-chip phase-plan">📐 תכנון</span>
+          </div>
+          <p class="action-body">תיאום עם רשות החינוך: תוספת שעות, שעות פ"מ מוכרות, או תגמול מסלול ייחודי. חובה לאשר לפני שמורים מתחילים.</p>
+          <div class="action-risk-tag">מרכיב סיכון: מורים ללא תמריץ ברור</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">תעודת "מורה מנטור 720" + הכרה מקצועית</span>
+            <span class="phase-chip phase-exec">⚙️ ביצוע</span>
+          </div>
+          <p class="action-body">הענקת תעודה בסיום השנה. הכרה בשעות כשעות פ"מ. פרסום ציבורי פנימי של ישגי מורים בקהילה המקצועית.</p>
+          <div class="action-risk-tag">מרכיב סיכון: חוסר הכרה מוסדית</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">מיקרו-סקרים מוטיבציה ותחושת הכרה</span>
+            <span class="phase-chip phase-ctrl">📊 בקרה</span>
+          </div>
+          <p class="action-body">סקרים קצרים כל חודשיים. מדידת: מוטיבציה, תחושת הכרה, מוכנות להמשך. זיהוי ירידה ומענה מהיר.</p>
+          <div class="action-risk-tag">מרכיב סיכון: נפילת מוטיבציה שקטה</div>
+        </div>
+
+        <div class="approval-section">
+          <div class="approval-label">✅ אישור ההתנסות בתנאים הבאים</div>
+          <ul class="approval-conditions">
+            <li><span class="cond-num">1</span>הוגדרה מסגרת תגמול ברורה ואושרה ברשות לפני תחילת הפיילוט</li>
+            <li><span class="cond-num">2</span>שעות ההכשרה מוכרות כשעות פיתוח מקצועי לצורך קידום בדרגות</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CATEGORY D — הכשרה לשימוש בב"מ
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="category-header">
+    <div class="cat-icon" style="background:var(--teal-lt);">🤖</div>
+    <div>
+      <div class="cat-title">קטגוריה ד' – הכשרה לשימוש אחראי ומושכל בבינה מלאכותית</div>
+      <div class="cat-subtitle">מסמך החזון: "שימוש מושכל בב"מ — לא ככלי טכני, אלא כתמיכה בפדגוגיה מותאמת אישית"</div>
+    </div>
+  </div>
+
+  <!-- RISK 6 -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-num">6</div>
+      <div class="risk-title-block">
+        <div class="risk-title">הסתמכות יתר על המלצות הב"מ — פגיעה ב-Human in the Loop</div>
+        <div class="risk-tags">
+          <span class="risk-tag" style="background:var(--teal-lt);border-color:#99e6e4;color:var(--teal);">בינה מלאכותית</span>
+          <span class="risk-tag" style="background:var(--accent-lt);border-color:#a5b4fc;color:var(--accent);">שיקול דעת</span>
+          <span class="proc-tag">📌 שלב 2 — ליווי ותמיכה, התאמות דינמיות</span>
+        </div>
+      </div>
+      <div class="severity-block">
+        <div class="severity-badge sev-med">🟠 בינונית</div><br>
+        <span class="sev-score sev-score-med">40</span>
+        <div class="sev-sub">הסתברות 8/10 · השפעה 5/10</div>
+      </div>
+    </div>
+    <div class="risk-body">
+      <div class="rb-col">
+        <div class="rb-col-label">📋 תיאור הסיכון</div>
+        <div class="process-ref"><strong>מסמך החזון:</strong> "שלב 2: איש החינוך אחראי לוודא שההערכה מותאמת ולבחון האם יש צורך לשנות כלים"</div>
+        <p class="risk-desc">מורים שאינם מכירים את מגבלות הב"מ עלולים לקבל המלצות ותובנות של המערכת כאמת מוחלטת. הסכנה גדולה במיוחד בתחומי SEL ובזיהוי מצוקות רגשיות.</p>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">📉 השלכות אפשריות</div>
+        <ul class="impl-list">
+          <li>החלטות פדגוגיות שגויות בעקבות המלצות מוטות/מוזות</li>
+          <li>פגיעה בעצמאות המקצועית ובשיקול הדעת</li>
+          <li>סיכון לתלמידים בנושאי רגש ומוגנות</li>
+        </ul>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">🔧 מענה ופעולות בהתנסות</div>
+
+        <div class="competency-bar">
+          <div class="comp-title">🎯 כישורים לפיתוח (מסמך החזון)</div>
+          <div class="comp-chips">
+            <span class="comp-chip">מיומנויות רפלקטיביות</span>
+            <span class="comp-chip">גמישות פדגוגית</span>
+            <span class="comp-chip">יכולת אבחון</span>
+          </div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">מודול חשיבה ביקורתית כלפי ב"מ — חלק מכל הכשרה</span>
+            <span class="phase-chip phase-plan">📐 תכנון</span>
+          </div>
+          <p class="action-body">כל יום הכשרה כולל מרכיב מפורש: "קריאת תוצרי ב"מ בעין ביקורתית". סימולציות של קבלת המלצה שגויה והחלטה אנושית שונה.</p>
+          <div class="action-risk-tag">מרכיב סיכון: אמון עיוור בטכנולוגיה</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">פרוטוקול אחריות — מה מחייב אישור אנושי</span>
+            <span class="phase-chip phase-exec">⚙️ ביצוע</span>
+          </div>
+          <p class="action-body">נהלים ברורים: אילו החלטות מחייבות אימות נוסף, מתי להתייעץ עם יועץ/מחנך, מה אסור לבצע ללא שיקול דעת אנושי.</p>
+          <div class="action-risk-tag">מרכיב סיכון: היעדר פרוטוקול מוגדר</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">בקרה מדגמית — כיצד מורים פועלים לפי המלצות</span>
+            <span class="phase-chip phase-ctrl">📊 בקרה</span>
+          </div>
+          <p class="action-body">בדיקה מדגמית רבעונית של תהליכי קבלת החלטה. שיתוף ממצאים בקהילה המקצועית.</p>
+          <div class="action-risk-tag">מרכיב סיכון: חוסר שקיפות בתהליך</div>
+        </div>
+
+        <div class="approval-section">
+          <div class="approval-label">✅ אישור ההתנסות בתנאים הבאים</div>
+          <ul class="approval-conditions">
+            <li><span class="cond-num">1</span>יום הכשרה ראשון כולל מרכיב מפורש של חשיבה ביקורתית כלפי המלצות הב"מ</li>
+            <li><span class="cond-num">2</span>מוגדרות בבירור אילו החלטות מחייבות שיקול דעת אנושי בלעדי</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK 7 -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-num">7</div>
+      <div class="risk-title-block">
+        <div class="risk-title">כניסה מהירה לתפקיד — מורה לא מוכן לניהול כיתה עם כלי ב"מ</div>
+        <div class="risk-tags">
+          <span class="risk-tag" style="background:var(--orange-lt);border-color:#fdba74;color:var(--orange);">פדגוגי</span>
+          <span class="risk-tag" style="background:var(--accent-lt);border-color:#a5b4fc;color:var(--accent);">ניהול כיתה</span>
+          <span class="proc-tag">📌 שלב 5 — ניהול אירועי למידה היברידיים</span>
+        </div>
+      </div>
+      <div class="severity-block">
+        <div class="severity-badge sev-med">🟠 בינונית</div><br>
+        <span class="sev-score sev-score-med">35</span>
+        <div class="sev-sub">הסתברות 7/10 · השפעה 5/10</div>
+      </div>
+    </div>
+    <div class="risk-body">
+      <div class="rb-col">
+        <div class="rb-col-label">📋 תיאור הסיכון</div>
+        <div class="process-ref"><strong>מסמך החזון:</strong> "שלב 5: מורה משלב כלים טכנולוגיים ועוקב אחרי ההתקדמות ומבצע התאמות בזמן אמת"</div>
+        <p class="risk-desc">ניהול כיתה היברידית — שבה חלק לומדים עצמאית, חלק בקבוצות, והמורה-מנטור מלווה בו-זמנית — הוא מיומנות חדשה לחלוטין. כניסה מהירה מדי עלולה לייצר כאוס.</p>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">📉 השלכות אפשריות</div>
+        <ul class="impl-list">
+          <li>כיתה בלתי מנוהלת — מורה חוזר לשיטה הפרונטלית</li>
+          <li>תלמידים חווים חוסר ודאות ואי-בהירות</li>
+          <li>פגיעה באמון בתהליך כולו</li>
+        </ul>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">🔧 מענה ופעולות בהתנסות</div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">"ספר מקרים" — תרחישי כיתה נפוצים</span>
+            <span class="phase-chip phase-plan">📐 תכנון</span>
+          </div>
+          <p class="action-body">לפחות 10 תרחישים מקדימים: תלמיד מתקשה, תלמיד מתקדם מהר, תלמיד מסרב לכלי, מה עושים כשהמערכת נופלת. נכתב לפני תחילת הפיילוט.</p>
+          <div class="action-risk-tag">מרכיב סיכון: מורה לא מוכן למצבים בלתי צפויים</div>
+        </div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">Pilot within Pilot — הפעלה הדרגתית</span>
+            <span class="phase-chip phase-exec">⚙️ ביצוע</span>
+          </div>
+          <p class="action-body">3–4 שבועות ראשונים: כלי פעיל, מורה צופה ומכיר. בהדרגה מגדילים מורכבות — מה-"מנחה" ל-"מנטור אישי" ל-"מנהל קהילה".</p>
+          <div class="action-risk-tag">מרכיב סיכון: קפיצה מהירה מדי לתפקיד מורכב</div>
+        </div>
+
+        <div class="approval-section">
+          <div class="approval-label">✅ אישור ההתנסות בתנאים הבאים</div>
+          <ul class="approval-conditions">
+            <li><span class="cond-num">1</span>נבנה "ספר מקרים" בסיסי לפני תחילת הפיילוט</li>
+            <li><span class="cond-num">2</span>מוגדרת תקופת "רמפה" של 3–4 שבועות לכל מורה לפני ניהול כיתה מלא</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISK 8 -->
+  <div class="risk-card">
+    <div class="risk-header">
+      <div class="risk-num">8</div>
+      <div class="risk-title-block">
+        <div class="risk-title">אי-הכרה בשעות ההכשרה במתווה הפיתוח המקצועי הרשמי</div>
+        <div class="risk-tags">
+          <span class="risk-tag" style="background:var(--green-lt);border-color:#86efac;color:var(--green);">רגולטורי</span>
+          <span class="risk-tag" style="background:var(--accent-lt);border-color:#a5b4fc;color:var(--accent);">מינהלי</span>
+          <span class="proc-tag">📌 עיקרון ליווי ואיגום משאבים</span>
+        </div>
+      </div>
+      <div class="severity-block">
+        <div class="severity-badge sev-low">🟢 נמוכה</div><br>
+        <span class="sev-score sev-score-low">18</span>
+        <div class="sev-sub">הסתברות 6/10 · השפעה 3/10</div>
+      </div>
+    </div>
+    <div class="risk-body">
+      <div class="rb-col">
+        <div class="rb-col-label">📋 תיאור הסיכון</div>
+        <div class="process-ref"><strong>מסמך החזון:</strong> "הכשרה מקצועית זו צריכה להתבצע כתהליך מתמשך — המוסד נדרש להקצות זמן ומשאבים"</div>
+        <p class="risk-desc">שעות ההכשרה בפיילוט 720 עשויות שלא להיות מוכרות במסגרת מתווה הפיתוח המקצועי הרשמי, דבר שמפחית את ערכן ועלול ליצור חיכוך ביורוקרטי.</p>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">📉 השלכות אפשריות</div>
+        <ul class="impl-list">
+          <li>מורים אינם מקבלים נקודות פ"מ לצורך קידום בדרגות</li>
+          <li>קושי להצדיק שעות הכשרה מול ההנהלה</li>
+        </ul>
+      </div>
+      <div class="rb-col">
+        <div class="rb-col-label">🔧 מענה ופעולות בהתנסות</div>
+
+        <div class="action-block">
+          <div class="action-top">
+            <span class="action-title">תיאום מוקדם עם האגף לפיתוח מקצועי</span>
+            <span class="phase-chip phase-plan">📐 תכנון</span>
+          </div>
+          <p class="action-body">פנייה לאגף לפיתוח מקצועי לקבלת הכרה בשעות הפיילוט כשעות פ"מ רשמיות לפני תחילת השנה.</p>
+          <div class="action-risk-tag">מרכיב סיכון: אי-הכרה ביורוקרטית</div>
+        </div>
+
+        <div class="approval-section">
+          <div class="approval-label">✅ אישור ההתנסות בתנאים הבאים</div>
+          <ul class="approval-conditions">
+            <li><span class="cond-num">1</span>התקבל אישור עקרוני מהאגף לפיתוח מקצועי להכרה בשעות הפיילוט — ולמצות לאשרור סופי במהלכו</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <div class="summary-section">
+    <div class="summary-header">📊 סיכום פעילויות מתקנות לפי שלבי פיילוט</div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>שלב</th>
+          <th>פעילויות עיקריות</th>
+          <th>אחראי</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="phase-chip phase-plan">📐 תכנון</span></td>
+          <td>מיפוי כשירויות מקדים · ספר מקרים פדגוגי · הסכמת הנהלה · הגדרת תגמול · מנחה קהילה · מסלולי הכשרה דיפרנציאליים · מודול חשיבה ביקורתית · תיאום פ"מ</td>
+          <td>צוות 720 + הנהלת בית ספר + רשות</td>
+        </tr>
+        <tr>
+          <td><span class="phase-chip phase-exec">⚙️ ביצוע</span></td>
+          <td>Walk the Talk · סמינר קיץ (דגם חותם) · Pilot within Pilot · מפגשי צפייה הדדית · פרוטוקול Human-in-the-Loop · קהילה בין-בית-ספרית · תעודת "מורה מנטור 720"</td>
+          <td>אירה קוגן + מנחי קהילה + מנטורים מובילים</td>
+        </tr>
+        <tr>
+          <td><span class="phase-chip phase-ctrl">📊 בקרה</span></td>
+          <td>מדד שינוי עמדות · ניטור שימוש בפלטפורמה · מדד שעות הכשרה בפועל · מדד פעילות קהילה · מיקרו-סקרים מוטיבציה · בקרה מדגמית על קבלת החלטות</td>
+          <td>אחינועם לוי-שני + מחקר מלווה</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  פיילוט 720 – ניהול סיכונים: הכשרה ופיתוח מקצועי | מינהל טכנולוגיה ושותפויות חינוכיות | מבוסס על תהליך 5 ממסמך תפיסת 720
+</footer>
+
+</body>
+</html>
